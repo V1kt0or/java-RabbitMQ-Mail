@@ -1,40 +1,64 @@
+# Proyecto
+
+## Instalación y Ejecución
+
+```sh
 mvn clean install
-
 mvn spring-boot:run
+```
 
-http://localhost:8000/api/users
+## Endpoints
 
+- **Usuarios**: [GET] `http://localhost:8000/api/users`
+- **Salud del sistema**: [GET] `http://localhost:9100/api/health`
+- **Prueba**: [GET] `http://localhost:9100/api/test`
+
+## Levantar con Docker
+
+```sh
 docker-compose up --build
-
 docker-compose up -d
+```
 
-http://localhost:9100/health
-http://localhost:9100/test
+## Acceso a RabbitMQ
 
+- URL: [http://localhost:15672](http://localhost:15672)
+- Usuario: `guest`
+- Contraseña: `guest`
 
-http://localhost:15672
-Usuario: guest
-Contraseña: guest
+## API Usuarios
 
+### Crear Usuario
+
+```sh
 curl -X POST http://localhost:9100/api/users \
 -H "Content-Type: application/json" \
--d '{"name":"Juan Perez","email":"jfarfan@tecsup.edu.pe","phone":"123456789"}'
+-d '{
+  "name": "Juan Perez",
+  "email": "jfarfan@tecsup.edu.pe",
+  "phone": "123456789"
+}'
+```
 
-curl -X POST http://localhost:9100/api/users \
+## API Pedidos
+
+### Crear Pedido
+
+```sh
+curl -X POST http://localhost:9100/api/orders \
 -H "Content-Type: application/json" \
--d '{"name":"Juan Perez","email":"jfarfan@example.com","phone":"123456789"}'
+-d '{
+  "id": 2,
+  "idClient": 2,
+  "date": "2025-03-29T00:00:00.000+00:00",
+  "ruc": "123456789",
+  "address": "Calle Ind. Mz9, Pedregal"
+}'
+```
 
+### Enviar Orden por Correo
 
-## Obtener todos los usuarios
-curl -X GET http://localhost:9100/api/users
-
-## Obtener un usuario específico
-curl -X GET http://localhost:9100/api/users/1
-
-
-## pruebas
-curl -X GET http://localhost:9100/test
-curl -X POST http://localhost:9100/api/users -H "Content-Type: application/json" -d '{"name":"Juan Perez","email":"juan@example.com","phone":"123456789"}'
-curl -X POST http://localhost:9100/api/users -H "Content-Type: application/json" -d '{"name":"Ana Torres","email":"ana@example.com","phone":"123456789"}'
-curl -X GET http://localhost:9100/api/users
+```sh
+curl -X POST http://localhost:9100/api/orders/send/{idOrder}
+```
 
